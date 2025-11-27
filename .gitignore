@@ -1,0 +1,112 @@
+# 🚫 GITIGNORE - DEPLOYMENT VERSION
+# ===================================
+# Files and folders to ignore when deploying
+
+# ============================================
+# 🐍 PYTHON
+# ============================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# ============================================
+# 💻 VIRTUAL ENVIRONMENTS
+# ============================================
+venv/
+ENV/
+env/
+.venv
+
+# ============================================
+# 🔐 SENSITIVE DATA
+# ============================================
+.env
+.env.local
+*.key
+*.pem
+secrets/
+
+# ============================================
+# 📁 DATASET (TETAP PRIVATE!)
+# ============================================
+backend/dataset_private/raw/*
+!backend/dataset_private/raw/.gitkeep
+backend/dataset_private/processed/*
+!backend/dataset_private/processed/.gitkeep
+dataset/raw/*/
+dataset/processed/*/
+!dataset/raw/.gitkeep
+!dataset/processed/.gitkeep
+
+# ============================================
+# 🤖 MODEL FILES (Upload setelah training)
+# ============================================
+backend/model/*.h5
+backend/model/*.pb
+!backend/model/.gitkeep
+
+# ============================================
+# 📤 TEMPORARY UPLOADS
+# ============================================
+backend/uploads_temp/*
+!backend/uploads_temp/.gitkeep
+
+# ============================================
+# 📊 LOGS
+# ============================================
+*.log
+logs/
+backend/training_logs/*.json
+!backend/training_logs/.gitkeep
+training_logs/*.json
+
+# ============================================
+# 💾 OS FILES
+# ============================================
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*~
+
+# ============================================
+# 🛠️ IDE
+# ============================================
+.vscode/
+.idea/
+.ipynb_checkpoints/
+
+# ============================================
+# 📦 NODE (if using npm for frontend tools)
+# ============================================
+node_modules/
+package-lock.json
+
+# ============================================
+# ☁️ DEPLOYMENT
+# ============================================
+.vercel
+.netlify
+
+# ============================================
+# 🎨 STREAMLIT (Old version)
+# ============================================
+.streamlit/secrets.toml

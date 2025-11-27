@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>♻️ Smart Waste Classifier - AI Pemilah Sampah</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- 🎨 Header & Navigation -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-icon">♻️</span>
+                    <div class="logo-text">
+                        <h1>Smart Waste Classifier</h1>
+                        <p>AI Pemilah Sampah untuk Pendidikan</p>
+                    </div>
+                </div>
+                
+                <nav class="main-nav">
+                    <button class="nav-btn active" data-page="home">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </button>
+                    <button class="nav-btn" data-page="classify">
+                        <i class="fas fa-search"></i>
+                        <span>Klasifikasi</span>
+                    </button>
+                    <button class="nav-btn" data-page="upload">
+                        <i class="fas fa-camera"></i>
+                        <span>Tambah Data</span>
+                    </button>
+                    <button class="nav-btn" data-page="train">
+                        <i class="fas fa-brain"></i>
+                        <span>Training</span>
+                    </button>
+                    <button class="nav-btn" data-page="edu">
+                        <i class="fas fa-book"></i>
+                        <span>Edukasi</span>
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- 📊 Stats Bar -->
+    <section class="stats-bar">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📦</div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="stat-total-images">0</div>
+                        <div class="stat-label">Total Gambar</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🧠</div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="stat-ai-level">🥚 AI Telur</div>
+                        <div class="stat-label">Level AI</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="stat-accuracy">0%</div>
+                        <div class="stat-label">Akurasi Model</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🎓</div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="stat-training-count">0</div>
+                        <div class="stat-label">Training Count</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 📄 Main Content -->
+    <main class="main-content">
+        <div class="container">
+            
+            <!-- 🏠 HOME PAGE -->
+            <section id="page-home" class="page active">
+                <div class="welcome-section">
+                    <div class="welcome-card animate-fade-in">
+                        <h2>🌍 Selamat Datang!</h2>
+                        <p class="lead">Manfaatkan sampahmu untuk sumber belajar AI dalam memilah sampah</p>
+                        <div class="divider"></div>
+                        <p>Aplikasi ini membantu kamu belajar tentang <strong>Artificial Intelligence (AI)</strong> sambil peduli lingkungan! 🤖🌱</p>
+                        
+                        <div class="features-grid">
+                            <div class="feature-item">
+                                <span class="feature-icon">📸</span>
+                                <span>Menambah data training dari foto sampah</span>
+                            </div>
+                            <div class="feature-item">
+                                <span class="feature-icon">🧠</span>
+                                <span>Melatih AI untuk mengenali jenis sampah</span>
+                            </div>
+                            <div class="feature-item">
+                                <span class="feature-icon">🔍</span>
+                                <span>Mengklasifikasi sampah secara otomatis</span>
+                            </div>
+                            <div class="feature-item">
+                                <span class="feature-icon">♻️</span>
+                                <span>Mendapat rekomendasi pengelolaan sampah</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="two-col-grid">
+                    <div class="info-card success-card">
+                        <h3>✨ Fitur Utama</h3>
+                        <ul class="feature-list">
+                            <li><strong>📸 Tambah Data:</strong> Upload foto sampah untuk training</li>
+                            <li><strong>🧠 Training Model:</strong> Latih AI dengan parameter custom</li>
+                            <li><strong>🔍 Klasifikasi:</strong> Identifikasi jenis sampah otomatis</li>
+                            <li><strong>♻️ Rekomendasi:</strong> Tips pengelolaan sampah</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-card info-card-primary">
+                        <h3>🎓 Kategori Sampah</h3>
+                        <ul class="category-list">
+                            <li><span class="cat-icon">📦</span> <strong>Cardboard</strong> - Kardus & karton</li>
+                            <li><span class="cat-icon">🫙</span> <strong>Glass</strong> - Kaca & botol kaca</li>
+                            <li><span class="cat-icon">🔩</span> <strong>Metal</strong> - Logam & kaleng</li>
+                            <li><span class="cat-icon">📄</span> <strong>Paper</strong> - Kertas</li>
+                            <li><span class="cat-icon">🥤</span> <strong>Plastic</strong> - Plastik</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="dataset-chart-container">
+                    <h3>📊 Distribusi Dataset</h3>
+                    <div id="dataset-chart" class="chart-placeholder">
+                        <canvas id="datasetCanvas"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 🔍 CLASSIFY PAGE -->
+            <section id="page-classify" class="page">
+                <div class="page-header">
+                    <h2>🔍 Klasifikasi Sampah</h2>
+                    <p>Upload foto sampah untuk diidentifikasi oleh AI</p>
+                </div>
+
+                <div class="classify-container">
+                    <div class="upload-area">
+                        <div class="upload-box" id="classify-upload-box">
+                            <div class="upload-icon">📷</div>
+                            <h3>Pilih atau Drop Gambar</h3>
+                            <p>Format: JPG, JPEG, PNG (Max 16MB)</p>
+                            <input type="file" id="classify-file-input" accept="image/jpeg,image/jpg,image/png" hidden>
+                            <button class="btn btn-primary" onclick="document.getElementById('classify-file-input').click()">
+                                <i class="fas fa-upload"></i> Pilih Gambar
+                            </button>
+                        </div>
+
+                        <div class="image-preview" id="classify-preview" style="display: none;">
+                            <img id="classify-preview-img" src="" alt="Preview">
+                            <button class="btn btn-primary btn-large" id="classify-btn">
+                                <i class="fas fa-magic"></i> Klasifikasikan Sekarang!
+                            </button>
+                            <button class="btn btn-secondary" onclick="resetClassifyPage()">
+                                <i class="fas fa-redo"></i> Upload Lagi
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="result-container" id="classify-result" style="display: none;">
+                        <div class="result-main">
+                            <div class="result-icon" id="result-icon">♻️</div>
+                            <h2 id="result-class">-</h2>
+                            <div class="confidence-badge" id="result-confidence">
+                                <span id="result-confidence-text">0%</span>
+                            </div>
+                            <p class="confidence-level" id="result-confidence-level">-</p>
+                        </div>
+
+                        <div class="confidence-chart">
+                            <h3>📊 Confidence Score per Kategori</h3>
+                            <canvas id="confidenceChart"></canvas>
+                        </div>
+
+                        <div class="recommendation-section">
+                            <h3>♻️ Rekomendasi Pengelolaan</h3>
+                            <div class="recommendation-card" id="recommendation-content">
+                                <!-- Will be filled by JS -->
+                            </div>
+                        </div>
+
+                        <div class="educational-section">
+                            <h3>🎓 Fakta Menarik</h3>
+                            <div class="edu-facts-grid" id="edu-facts">
+                                <!-- Will be filled by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 📸 UPLOAD PAGE -->
+            <section id="page-upload" class="page">
+                <div class="page-header">
+                    <h2>📸 Tambah Data Training</h2>
+                    <p>Upload foto sampah untuk memperkaya dataset AI</p>
+                </div>
+
+                <div class="upload-training-container">
+                    <div class="upload-form-section">
+                        <div class="info-box info-box-primary">
+                            <h3>📋 Panduan Upload</h3>
+                            <ol>
+                                <li>Pilih foto sampah yang jelas</li>
+                                <li>Pilih kategori yang sesuai</li>
+                                <li>Klik "Tambah ke Dataset"</li>
+                            </ol>
+                            <p><strong>Tips:</strong> Foto yang bagus = AI yang lebih pintar! 📸</p>
+                        </div>
+
+                        <div class="upload-box" id="upload-training-box">
+                            <div class="upload-icon">📷</div>
+                            <h3>Pilih Gambar Training</h3>
+                            <input type="file" id="upload-training-file" accept="image/jpeg,image/jpg,image/png" hidden>
+                            <button class="btn btn-primary" onclick="document.getElementById('upload-training-file').click()">
+                                <i class="fas fa-upload"></i> Pilih Gambar
+                            </button>
+                        </div>
+
+                        <div class="image-preview" id="upload-training-preview" style="display: none;">
+                            <img id="upload-training-preview-img" src="" alt="Preview">
+                            
+                            <div class="category-selector">
+                                <label for="upload-category">Pilih Kategori Sampah:</label>
+                                <select id="upload-category" class="form-select">
+                                    <option value="">-- Pilih Kategori --</option>
+                                    <option value="cardboard">📦 Cardboard</option>
+                                    <option value="glass">🫙 Glass</option>
+                                    <option value="metal">🔩 Metal</option>
+                                    <option value="paper">📄 Paper</option>
+                                    <option value="plastic">🥤 Plastic</option>
+                                </select>
+                            </div>
+
+                            <button class="btn btn-success btn-large" id="upload-training-btn">
+                                <i class="fas fa-plus"></i> Tambah ke Dataset
+                            </button>
+                            <button class="btn btn-secondary" onclick="resetUploadPage()">
+                                <i class="fas fa-redo"></i> Upload Lagi
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="dataset-stats-section">
+                        <h3>📊 Dataset Saat Ini</h3>
+                        <div id="dataset-category-stats" class="category-stats">
+                            <!-- Will be filled by JS -->
+                        </div>
+
+                        <div id="dataset-ready-check" class="ready-check">
+                            <!-- Will be filled by JS -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 🧠 TRAINING PAGE -->
+            <section id="page-train" class="page">
+                <div class="page-header">
+                    <h2>🧠 Training Model AI</h2>
+                    <p>Latih AI untuk mengenali jenis sampah dengan parameter yang bisa kamu atur!</p>
+                </div>
+
+                <div class="training-container">
+                    <div class="training-params">
+                        <h3>⚙️ Pengaturan Training</h3>
+                        
+                        <div class="param-group">
+                            <label for="train-epochs">🔄 Jumlah Epoch</label>
+                            <input type="range" id="train-epochs" min="5" max="100" step="5" value="20">
+                            <span class="param-value" id="train-epochs-value">20</span>
+                            <p class="param-help">Semakin banyak epoch, semakin lama AI belajar</p>
+                        </div>
+
+                        <div class="param-group">
+                            <label for="train-lr">⚡ Learning Rate</label>
+                            <select id="train-lr" class="form-select">
+                                <option value="0.0001">0.0001 - Sangat Lambat</option>
+                                <option value="0.0005">0.0005 - Lambat</option>
+                                <option value="0.001" selected>0.001 - Normal ✓</option>
+                                <option value="0.005">0.005 - Cepat</option>
+                                <option value="0.01">0.01 - Sangat Cepat</option>
+                            </select>
+                            <p class="param-help">Kecepatan belajar AI</p>
+                        </div>
+
+                        <div class="param-group">
+                            <label for="train-batch">📦 Batch Size</label>
+                            <select id="train-batch" class="form-select">
+                                <option value="8">8 - Kecil</option>
+                                <option value="16">16 - Sedang</option>
+                                <option value="32" selected>32 - Normal ✓</option>
+                                <option value="64">64 - Besar</option>
+                            </select>
+                            <p class="param-help">Jumlah gambar per batch</p>
+                        </div>
+
+                        <div class="info-box">
+                            <strong>⏱️ Estimasi Waktu:</strong>
+                            <p id="train-estimate">Tergantung jumlah epoch dan data</p>
+                        </div>
+
+                        <button class="btn btn-primary btn-large" id="start-training-btn">
+                            <i class="fas fa-rocket"></i> Mulai Training!
+                        </button>
+                    </div>
+
+                    <div class="training-progress" id="training-progress" style="display: none;">
+                        <h3>🧠 AI Sedang Belajar...</h3>
+                        
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" id="progress-bar"></div>
+                        </div>
+                        <p class="progress-text" id="progress-text">Mempersiapkan dataset...</p>
+
+                        <div class="training-metrics">
+                            <div class="metric-card">
+                                <div class="metric-label">Epoch</div>
+                                <div class="metric-value" id="metric-epoch">0/20</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-label">Train Accuracy</div>
+                                <div class="metric-value" id="metric-train-acc">0%</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-label">Val Accuracy</div>
+                                <div class="metric-value" id="metric-val-acc">0%</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-label">Loss</div>
+                                <div class="metric-value" id="metric-loss">0.0000</div>
+                            </div>
+                        </div>
+
+                        <div class="training-chart">
+                            <canvas id="trainingChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="training-result" id="training-result" style="display: none;">
+                        <h3>🎉 Training Selesai!</h3>
+                        <div id="training-result-content">
+                            <!-- Will be filled by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="educational-boxes">
+                    <div class="edu-box">
+                        <h4>🎓 Apa itu Epoch?</h4>
+                        <p>Epoch adalah 1 kali putaran lengkap AI mempelajari SEMUA data training.</p>
+                        <p><strong>Analogi:</strong> Seperti kamu belajar menghadapi ujian. 1 epoch = baca semua materi 1 kali.</p>
+                    </div>
+                    <div class="edu-box">
+                        <h4>🎓 Apa itu Learning Rate?</h4>
+                        <p>Learning rate mengatur seberapa cepat AI belajar. Terlalu cepat = AI bingung.</p>
+                        <p><strong>Tips:</strong> Nilai ideal: 0.001 - 0.01. Mulai dengan 0.001 untuk aman.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 📚 EDUCATION PAGE -->
+            <section id="page-edu" class="page">
+                <div class="page-header">
+                    <h2>📚 Pusat Edukasi</h2>
+                    <p>Pelajari lebih lanjut tentang AI dan pengelolaan sampah</p>
+                </div>
+
+                <div class="edu-tabs">
+                    <button class="edu-tab active" data-tab="ai">🤖 Tentang AI</button>
+                    <button class="edu-tab" data-tab="waste">♻️ Tentang Sampah</button>
+                    <button class="edu-tab" data-tab="levels">🎮 Level AI</button>
+                </div>
+
+                <div class="edu-content">
+                    <div id="edu-ai" class="edu-tab-content active">
+                        <h3>🤖 Apa itu Artificial Intelligence?</h3>
+                        <div class="info-card">
+                            <h4>Definisi AI</h4>
+                            <p><strong>Artificial Intelligence (AI)</strong> atau Kecerdasan Buatan adalah kemampuan mesin untuk "belajar" dan "berpikir" seperti manusia.</p>
+                            <p>Di aplikasi ini, AI belajar mengenali jenis sampah dari foto-foto yang kamu upload. Semakin banyak data, semakin pintar AI-nya!</p>
+                        </div>
+
+                        <div class="two-col-grid">
+                            <div class="info-card">
+                                <h4>🔄 Bagaimana AI Belajar?</h4>
+                                <ol>
+                                    <li><strong>Input Data:</strong> AI diberi banyak foto sampah dengan labelnya</li>
+                                    <li><strong>Training:</strong> AI mencari pola dari foto-foto tersebut</li>
+                                    <li><strong>Testing:</strong> AI diuji dengan foto baru</li>
+                                    <li><strong>Prediksi:</strong> AI bisa mengenali jenis sampah baru!</li>
+                                </ol>
+                            </div>
+
+                            <div class="info-card">
+                                <h4>📊 Istilah Penting</h4>
+                                <ul>
+                                    <li><strong>Epoch:</strong> 1 putaran lengkap belajar semua data</li>
+                                    <li><strong>Learning Rate:</strong> Kecepatan belajar AI</li>
+                                    <li><strong>Accuracy:</strong> Persentase jawaban benar</li>
+                                    <li><strong>Loss:</strong> Tingkat kesalahan (semakin rendah semakin baik)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="edu-waste" class="edu-tab-content">
+                        <h3>♻️ Pengelolaan Sampah</h3>
+                        <div class="success-card">
+                            <h4>🌍 Mengapa Pemilahan Sampah Penting?</h4>
+                            <p>Sampah yang dipilah dengan benar bisa:</p>
+                            <ul>
+                                <li>♻️ Didaur ulang menjadi produk baru</li>
+                                <li>🌳 Mengurangi penebangan pohon</li>
+                                <li>💰 Bernilai ekonomis</li>
+                                <li>🌊 Mengurangi pencemaran</li>
+                            </ul>
+                        </div>
+
+                        <h4>📋 Panduan Lengkap per Jenis Sampah</h4>
+                        
+                        <div class="waste-guide-grid">
+                            <div class="waste-guide-card">
+                                <div class="waste-icon">📦</div>
+                                <h5>Cardboard</h5>
+                                <p><strong>Aksi:</strong> Daur ulang karton</p>
+                                <p>Lipat cardboard agar lebih mudah disimpan. Setor ke tempat daur ulang terdekat.</p>
+                                <p><strong>Dampak:</strong> 🌳 Mengurangi penebangan pohon</p>
+                            </div>
+
+                            <div class="waste-guide-card">
+                                <div class="waste-icon">🫙</div>
+                                <h5>Glass</h5>
+                                <p><strong>Aksi:</strong> Daur ulang di tempat khusus</p>
+                                <p>Kaca dapat didaur ulang berkali-kali. Cuci bersih sebelum daur ulang.</p>
+                                <p><strong>Dampak:</strong> ⚡ Hemat energi hingga 40%</p>
+                            </div>
+
+                            <div class="waste-guide-card">
+                                <div class="waste-icon">🔩</div>
+                                <h5>Metal</h5>
+                                <p><strong>Aksi:</strong> Bernilai ekonomis - bisa dijual!</p>
+                                <p>Logam sangat bernilai. Setor ke bank sampah atau pengepul.</p>
+                                <p><strong>Dampak:</strong> 💰 Nilai ekonomi tinggi</p>
+                            </div>
+
+                            <div class="waste-guide-card">
+                                <div class="waste-icon">📄</div>
+                                <h5>Paper</h5>
+                                <p><strong>Aksi:</strong> Daur ulang atau gunakan kembali</p>
+                                <p>Gunakan dua sisi kertas sebelum direcycle.</p>
+                                <p><strong>Dampak:</strong> 🌳 1 ton = 17 pohon terselamatkan</p>
+                            </div>
+
+                            <div class="waste-guide-card">
+                                <div class="waste-icon">🥤</div>
+                                <h5>Plastic</h5>
+                                <p><strong>Aksi:</strong> Kurangi penggunaan</p>
+                                <p>Plastik sulit terurai. Prioritaskan mengurangi, lalu daur ulang.</p>
+                                <p><strong>Dampak:</strong> 🌊 Kurangi pencemaran laut</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="edu-levels" class="edu-tab-content">
+                        <h3>🎮 Sistem Level AI</h3>
+                        <div class="edu-card">
+                            <h4>🏆 Tingkatkan Level AI-mu!</h4>
+                            <p>Semakin sering training dengan data yang bagus, semakin tinggi level AI-mu!</p>
+                        </div>
+
+                        <div class="levels-grid">
+                            <div class="level-card">
+                                <div class="level-icon">🥚</div>
+                                <h5>AI Telur</h5>
+                                <p>Accuracy: 0-50%</p>
+                                <span class="badge">Baru Menetas</span>
+                            </div>
+
+                            <div class="level-card">
+                                <div class="level-icon">🐣</div>
+                                <h5>AI Anak Ayam</h5>
+                                <p>Accuracy: 50-70%</p>
+                                <span class="badge">Mulai Belajar</span>
+                            </div>
+
+                            <div class="level-card">
+                                <div class="level-icon">🐥</div>
+                                <h5>AI Ayam Muda</h5>
+                                <p>Accuracy: 70-85%</p>
+                                <span class="badge">Semakin Pintar</span>
+                            </div>
+
+                            <div class="level-card">
+                                <div class="level-icon">🦅</div>
+                                <h5>AI Elang</h5>
+                                <p>Accuracy: 85-95%</p>
+                                <span class="badge">Ahli Klasifikasi</span>
+                            </div>
+
+                            <div class="level-card">
+                                <div class="level-icon">🚀</div>
+                                <h5>AI Roket</h5>
+                                <p>Accuracy: 95-100%</p>
+                                <span class="badge badge-gold">Master AI</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- 🦶 Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>🌍 Smart Waste Classifier - Aplikasi pembelajaran AI untuk siswa</p>
+            <p>Dibuat dengan ❤️ untuk pendidikan lingkungan</p>
+        </div>
+    </footer>
+
+    <!-- 🔔 Toast Notification -->
+    <div id="toast" class="toast">
+        <div class="toast-icon" id="toast-icon">✅</div>
+        <div class="toast-message" id="toast-message"></div>
+    </div>
+
+    <!-- 📜 Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
