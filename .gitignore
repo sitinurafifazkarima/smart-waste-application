@@ -110,3 +110,10 @@ package-lock.json
 # 🎨 STREAMLIT (Old version)
 # ============================================
 .streamlit/secrets.toml
+# Exclude large model files
+keras_model.h5
+backend/model/keras_model.h5
+
+# Large model files (deploy manually)
+keras_model.h5
+*.h5
